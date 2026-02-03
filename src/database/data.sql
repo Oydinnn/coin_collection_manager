@@ -1,0 +1,38 @@
+-- Active: 1766419843621@@127.0.0.1@5433@youtube
+CREATE TABLE users(
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  avatar TEXT NOT NULL,
+  socketId VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE files(
+  id SERIAL NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  size INTEGER NOT NULL,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+)
+
+CREATE TABLE messages(
+  id SERIAL NOT NULL,
+  message_type TEXT NOT NULL,
+  message NOT NULL,
+  user_id_to INT REFERENCES users(id),
+  user_id_from INT REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+)
+
+SELECT * FROM users;
+SELECT * FROM files;
+
+ALTER TABLE files
+ALTER COLUMN title TYPE VARCHAR(255);
+
+DROP TABLE files;
+DROP TABLE users;
+
+DELETE FROM files WHERE id = 27;
